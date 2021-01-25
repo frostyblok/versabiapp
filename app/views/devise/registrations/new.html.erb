@@ -1,0 +1,61 @@
+<div class="main">
+	<section class="signup">
+		<div class="container">
+			<div class="signup-content col col-sm-12 col-lg-7 m-auto space-bottom-3">
+
+				<%= simple_form_for(resource, as: resource_name, url: registration_path(resource_name), html: {id: 'signup-form', class: 'signup-form' }) do |f| %>
+					<%= f.error_notification %>
+
+					<h2 class="form-title mb-3">Create account</h2>
+						<%= f.input :first_name, label: false, class: 'form-control', placeholder: 'First Name', required: true %>
+						<%= f.input :last_name, label: false, class: 'form-control', placeholder: 'Last Name',  required: true %>
+            <%= f.input :email,
+                        label: false,
+                        placeholder: 'Email',
+                        class: 'form-control',
+												required: true,
+												autofocus: true,
+												input_html: { autocomplete: "email" }%>
+						<%= f.input :password,
+                        label: false,
+                        class: 'form-control',
+                        placeholder: 'Password',
+												required: true,
+												hint: ("#{@minimum_password_length} characters minimum" if @minimum_password_length),
+												input_html: { autocomplete: "new-password"} %>
+						<span toggle="#password" class="fa fa-eye field-icon toggle-password"></span>
+						<%= f.input :password_confirmation,
+                        label: false,
+                        class: 'form-control',
+                        placeholder: 'Confirm Password',
+												required: true,
+												input_html: { autocomplete: "new-password", class: 'form-input'} %>
+						<input type="checkbox" name="agree-term" id="agree-term" class="agree-term" />
+						<label for="agree-term" class="label-agree-term"><span><span></span></span>I agree all statements in  <a href="#" class="term-service">Terms of service</a></label>
+
+					<div class="form-actions mb-3">
+						<%= f.button :submit, "Sign up", class: 'form-submit' %>
+					</div>
+				<% end %>
+
+        <%= render "devise/shared/links" %>
+			</div>
+		</div>
+	</section>
+</div>
+
+
+<script>
+	const passwordToggle = document.querySelector('.toggle-password');
+	passwordToggle.addEventListener('click', () => {
+		passwordToggle.classList.toggle('fa-eye-slash');
+		const input = document.querySelector('#user_password');
+		const inputType = document.querySelector('#user_password').getAttribute('type');
+
+		if (inputType === 'password') {
+			input.setAttribute('type', 'text')
+		} else {
+			input.setAttribute('type', 'password');
+		}
+	});
+</script>
