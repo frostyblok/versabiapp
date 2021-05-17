@@ -9,7 +9,7 @@ Rails.application.routes.draw do
   end
 
   authenticated :user do
-    root to: 'page#home', as: 'authenticated_route'
+    root to: 'page#main', as: 'authenticated_route'
   end
-  root to: 'page#see'
+  root to: 'page#home'
 end
