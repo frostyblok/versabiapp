@@ -1,0 +1,6 @@
+<div>
+	<h1>Enter Twitter username to get insight</h1>
+	<%= form_with url: search_tweets_path, method: :get, local: true, class: "form-inline search-form" do |f| %>
+		<%= f.text_field :query, class: "form-control mr-sm-2 search-query", placeholder: "Enter Twitter username" %>
+	<% end %>
+</div>
