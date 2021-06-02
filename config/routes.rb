@@ -12,4 +12,6 @@ Rails.application.routes.draw do
     root to: 'page#main', as: 'authenticated_route'
   end
   root to: 'page#home'
+
+  get '/search_tweets' => 'page#search_tweets', as: 'search_tweets'
 end

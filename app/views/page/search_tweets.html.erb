@@ -1,0 +1,63 @@
+<div class="d-flex justify-content-around">
+	<div class="">
+		<div class="card">
+			<div>Total Replies: <%= @reply_count %></div>
+			<div>Total Retweets: <%= @retweets_count %></div>
+			<div>Total Quote Replies: <%= @quote_count %></div>
+			<div>Total Likes: <%= @like_count %></div>
+		</div>
+	</div>
+
+	<div class="span4">
+		<a class="twitter-timeline" href="https://twitter.com/<%= @username %>" data-height="950px" data-widget-id="MyTwitterId">Tweets by <%= @username %></a>
+	</div>
+</div>
+
+<script>
+	window.twttr = (function (d, s, id) {
+		var js, fjs = d.getElementsByTagName(s)[0],
+				t = window.twttr || {};
+		if (d.getElementById(id)) return;
+		js = d.createElement(s);
+		js.id = id;
+		js.src = "https://platform.twitter.com/widgets.js";
+		fjs.parentNode.insertBefore(js, fjs);
+
+		t._e = [];
+		t.ready = function (f) {
+			t._e.push(f);
+		};
+
+		return t;
+	}(document, "script", "twitter-wjs"));
+
+	twttr.ready(function (twttr) {
+		twttr.events.bind("rendered", function (event) {
+			var frameDoc = event.target.contentDocument;
+
+			// initially hide retweets
+			var hideRetweets = function () {
+				var retweets = frameDoc.querySelectorAll('div.timeline-Tweet--isRetweet');
+				retweets.forEach(function (node) {
+					if (node.parentNode && node.parentNode.style !== 'display: none;') { // (in)sanity check
+						node.parentNode.style = 'display: none;' // hide entire parent li tag
+					}
+				});
+			};
+
+			hideRetweets();
+
+			// Twitter widget emitts no events on updates so we hook up ourselves to ol element to listen on it for additions of children
+			var watcher = new MutationObserver(function (mutations) {
+				// check whether new tweets arrived
+				var hasNewTweets = mutations.some(function (mutation) {
+					return mutation.addedNodes.length > 0;
+				});
+				if (hasNewTweets) {
+					hideRetweets(); // rescan all tweets as it is easier
+				}
+			});
+			watcher.observe(frameDoc.querySelector('ol.timeline-TweetList'), { childList: true });
+		});
+	});
+</script>

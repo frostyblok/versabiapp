@@ -26,6 +26,8 @@ gem 'devise'
 # Simple form helper for rails
 gem 'simple_form'
 gem 'twitter'
+gem 'typhoeus'
+gem 'oauth'
 
 # Use Active Storage variant
 # gem 'image_processing', '~> 1.2'
